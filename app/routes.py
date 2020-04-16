@@ -13,6 +13,7 @@ def start():
 @app.route('/upload', methods = ['POST'])
 def upload():
     parent_file= (request.form.get('parent_pdf_id'))
+    workflow_id= (request.form.get('workflow_id'))
     pdf_data = None 
     xtracta_ids = list()
     #return "test", 200
@@ -32,7 +33,7 @@ def upload():
             upload_url ='https://api-app.xtracta.com/v1/documents/upload'
             auth_upload = {
             'api_key':'b65d6427252e69e4aa29728f6ebfbf43ccf2f266',
-            'workflow_id':'965372'
+            'workflow_id': workflow_id
             }
 
             r=requests.post(url=upload_url, files=files,data=auth_upload)
