@@ -50,7 +50,11 @@ def upload():
             record_data= {
                 'field_41': xtracta_id,
             }
-            record_r= requests.put(url=record_url, headers=knack_headers, data=record_data)
+            try:
+                record_r= requests.put(url=record_url, headers=knack_headers, data=record_data)
+            except requests.exceptions.RequestException as e:
+                print(e)
+                record_r= requests.put(url=record_url, headers=knack_headers, data=record_data)
             print(record_r.content)
             pdf_to_upload.close() 
             
