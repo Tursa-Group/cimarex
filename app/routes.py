@@ -4,10 +4,11 @@ from flask import render_template, request, jsonify
 from app import app
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import requests
+from pdf2image import convert_from_bytes
 
 @app.route('/')
 def start():
-    return "Hello, World!"
+    return "holi world"
 
 
 @app.route('/upload', methods = ['POST'])
@@ -63,3 +64,13 @@ def upload():
         return "please upload a file to process" , 403
 
     return "success"
+
+
+
+@app.route('/change', methods=['POST'])
+def change():
+    if 'pdf' in request.files:
+        incoming_pdf = request.files['pdf']
+        os.rename(incoming_pdf, 'output_INV.pdf')
+        return send_file('output_INV.pdf',mimetype='application/pdf')
+        # return
