@@ -62,22 +62,3 @@ def upload():
 
 
 
-##################################################
-@app.route('/convert', methods = ['POST'])
-def convert():
-    uri='https://api.cloudconvert.com/v2/convert'
-    h = {"Authorization": "cw3fcEID0Jq9vj11yIE9ck2wQxRE3Qo3BGFwnhIdsZVlwk9tKuf67jjCpd9eyq6M","Content-type": "application/json"}
-    
-    if 'pdf' in request.files:
-        incoming_pdf = request.files['pdf']
-
-        data={
-        "input": incoming_pdf,    
-        "input_format": "pdf",
-        "output_format": "png",
-        }
-        x= requests.post(uri,headers=h, data=datas)
-        print(x.content)
-        
-
-    return 'success'
