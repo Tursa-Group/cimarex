@@ -1,18 +1,10 @@
 import os
 import json
-from flask import render_template, request, jsonify, send_file, send_from_directory
+from flask import render_template, request, jsonify, send_file, Response
 from app import app
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import requests
-from requests_toolbelt import MultipartEncoder
-
-
-from pdf2image import convert_from_bytes
-from pdf2image.exceptions import (
-    PDFInfoNotInstalledError,
-    PDFPageCountError,
-    PDFSyntaxError
-)
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 
@@ -23,17 +15,14 @@ def start():
 
 @app.route('/upload', methods = ['POST'])
 def upload():
-    parent_file= (request.form.get('parent_pdf_id'))
-    workflow_id= (request.form.get('workflow_id'))
     pdf_data = None 
-    doc_images = list()
-    #return "test", 200
+    docs = list()
+
     if 'pdf' in request.files:
         incoming_pdf = request.files['pdf']
         pdf_data = PdfFileReader(incoming_pdf, 'rb')
         output = PdfFileWriter()
         output.addPage(pdf_data.getPage(0))
-        pages= {}
 
 
         for i in range(0,pdf_data.numPages,1):
@@ -43,19 +32,23 @@ def upload():
         
             with open("document-page%s.pdf" % i, "wb") as outputStream:
                 output.write(outputStream)
+                #docs.append(output.write(outputStream))
                 print('Created: {}'.format("document-page%s.pdf" % i))
                 outputStream.close()
 
-            with open("document-page%s.pdf" % i,"rb") as doc_page:
-                pages.update({'page%s' % i : (doc_page,open("document-page%s.pdf" % i,"rb"),'application/pdf')})
-                doc_page.close()
+           # with open("document-page%s.pdf" % i,"rb") as doc_page:
+           #     pages.update({'page%s' % i : (doc_page,open("document-page%s.pdf" % i,"rb"),'application/pdf')})
+           #     doc_page.close()
 
-        m=MultipartEncoder(pages)
-    
+        m = MultipartEncoder(
+           fields={'field0': 'value','field2': 
+           ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')}
+        )
 
             
             
         os.remove("document-page%s.pdf" % i)
+
     else:
         return "please upload a file to process" , 403
     
@@ -68,6 +61,8 @@ def upload():
     return Response(m.to_string(), mimetype=m.content_type)
 
 
+
+##################################################
 @app.route('/convert', methods = ['POST'])
 def convert():
     uri='https://api.cloudconvert.com/v2/convert'
