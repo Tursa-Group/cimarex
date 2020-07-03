@@ -36,9 +36,6 @@ def upload():
                 print('Created: {}'.format("document-page%s.pdf" % i))
                 outputStream.close()
 
-           # with open("document-page%s.pdf" % i,"rb") as doc_page:
-           #     pages.update({'page%s' % i : (doc_page,open("document-page%s.pdf" % i,"rb"),'application/pdf')})
-           #     doc_page.close()
 
         m = MultipartEncoder(
            fields={'field0': 'value','field2': 
@@ -52,11 +49,6 @@ def upload():
     else:
         return "please upload a file to process" , 403
     
- #   with open("output_INV.pdf", "wb") as outputStream:
- #       path ='/home/smokeythebear/Documents/Python/cimarex/output_INV.pdf'
- #       output.write(outputStream)
-        #print('Created: {}'.format("document-page%s.pdf" % i))
- #       outputStream.close()
 
     return Response(m.to_string(), mimetype=m.content_type)
 
