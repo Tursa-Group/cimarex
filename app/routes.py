@@ -16,35 +16,35 @@ def start():
 @app.route('/upload', methods = ['POST'])
 def upload():
     pdf_data = None 
-    docs = list()
 
     if 'pdf' in request.files:
         incoming_pdf = request.files['pdf']
         pdf_data = PdfFileReader(incoming_pdf, 'rb')
-        output = PdfFileWriter()
-        output.addPage(pdf_data.getPage(0))
+        fields={}
+     #   'field2': ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')
+        #output = PdfFileWriter()
+       # output.addPage(pdf_data.getPage(0))
 
 
-        for i in range(0,pdf_data.numPages,1):
+        for i in range(0,pdf_data.numPages-1,1):
+            output = PdfFileWriter()
             output.addPage(pdf_data.getPage(i))
             page = i + 1
 
         
-            with open("document-page%s.pdf" % i, "wb") as outputStream:
+            with open("document-page%s.pdf" % i, "r+b") as outputStream:
                 output.write(outputStream)
                 #docs.append(output.write(outputStream))
                 print('Created: {}'.format("document-page%s.pdf" % i))
                 outputStream.close()
 
+            fields.update({'document-page%s'% i: ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')})
+            print(fields)
 
-        m = MultipartEncoder(
-           fields={'field0': 'value','field2': 
-           ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')}
-        )
-
-            
-            
         os.remove("document-page%s.pdf" % i)
+
+        m = MultipartEncoder(fields)
+
 
     else:
         return "please upload a file to process" , 403
