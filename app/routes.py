@@ -26,20 +26,28 @@ def upload():
        # output.addPage(pdf_data.getPage(0))
 
 
-        for i in range(0,pdf_data.numPages-1,1):
+        for i in range(0,pdf_data.numPages,1):
             output = PdfFileWriter()
             output.addPage(pdf_data.getPage(i))
             page = i + 1
 
         
-            with open("document-page%s.pdf" % i, "r+b") as outputStream:
+            with open("document-page%s.pdf" % i, "wb") as outputStream:
                 output.write(outputStream)
                 #docs.append(output.write(outputStream))
                 print('Created: {}'.format("document-page%s.pdf" % i))
+                #fields.update({'document-page%s'% i: ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')})
+                #print(fields)
                 outputStream.close()
 
-            fields.update({'document-page%s'% i: ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')})
-            print(fields)
+            with open("document-page%s.pdf" % i, "rb") as response_File:
+                fields.update({'document-page%s'% i: ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')})
+                print(fields)
+ 
+
+
+            
+
 
         os.remove("document-page%s.pdf" % i)
 
