@@ -48,11 +48,12 @@ def upload():
 
 
                 print(fields)
+
+
+            os.remove("document-page%s.pdf" % i)
+
         zipf.close()
 
-
-
-        os.remove("document-page%s.pdf" % i)
 
         m = MultipartEncoder(fields)
         print(m)
@@ -63,7 +64,8 @@ def upload():
     
 
     #return Response(, mimetype=m.content_type)
-    return send_file('/home/smokeythebear/Documents/Python/cimarex/Name.zip',
+    #/home/smokeythebear/Documents/Python/cimarex/Name.zip
+    return send_file('../Name.zip',
             mimetype = 'zip',
             attachment_filename= 'Name.zip',
             as_attachment = True)
