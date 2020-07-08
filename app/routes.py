@@ -1,5 +1,6 @@
 import os
 import json
+import zipfile
 from flask import render_template, request, jsonify, send_file, Response
 from app import app
 from PyPDF2 import PdfFileWriter, PdfFileReader
@@ -20,6 +21,7 @@ def upload():
     if 'pdf' in request.files:
         incoming_pdf = request.files['pdf']
         pdf_data = PdfFileReader(incoming_pdf, 'rb')
+        zipf = zipfile.ZipFile('Name.zip','w', zipfile.ZIP_DEFLATED)
         fields={}
      #   'field2': ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')
         #output = PdfFileWriter()
@@ -42,23 +44,31 @@ def upload():
 
             with open("document-page%s.pdf" % i, "rb") as response_File:
                 fields.update({'document-page%s'% i: ('filename', open('document-page%s.pdf'% i, 'rb'), 'Application/pdf')})
+                zipf.write("document-page%s.pdf" % i)
+
+
                 print(fields)
- 
 
 
-            
+            os.remove("document-page%s.pdf" % i)
 
+        zipf.close()
 
-        os.remove("document-page%s.pdf" % i)
 
         m = MultipartEncoder(fields)
+        print(m)
 
 
     else:
         return "please upload a file to process" , 403
     
 
-    return Response(m.to_string(), mimetype=m.content_type)
+    #return Response(, mimetype=m.content_type)
+    #/home/smokeythebear/Documents/Python/cimarex/Name.zip
+    return send_file('../Name.zip',
+            mimetype = 'zip',
+            attachment_filename= 'Name.zip',
+            as_attachment = True)
 
 
 
