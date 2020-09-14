@@ -60,8 +60,8 @@ def upload():
 @app.route('/addrates', methods = ['POST'])
 def addrates():
 
-    incoming_data = request.json
-    print(incoming_data[0])
+    incoming_data = request.values
+    print(incoming_data)
     service_ticket = None
     rate_group = None
     labour_trades = []
