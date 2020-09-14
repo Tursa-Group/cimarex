@@ -61,7 +61,7 @@ def upload():
 def addrates():
 
     incoming_data = request.json
-    print(incoming_data)
+    print(incoming_data[0])
     service_ticket = None
     rate_group = None
     labour_trades = []
@@ -101,4 +101,5 @@ def addrates():
         return str(update_response)
 
     else:
-     return 'please include the records data'
+        print('data not reaching processing')
+        return 'please include the records data'
