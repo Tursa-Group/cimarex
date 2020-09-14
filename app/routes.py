@@ -65,8 +65,9 @@ def addrates():
     rate_group = None
     labour_trades = []
     equipment_trades = []
+    print (incoming_data)
 
-    if 'id' in incoming_data[0]:
+    if 'id' in incoming_data:
         service_ticket = incoming_data[0]['id']
         rate_group = incoming_data[0]['field_242_raw'][0]['id']
         labour_rates_url = 'https://api.knack.com/v1/objects/object_15/records?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D'.format(rate_group)
