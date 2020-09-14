@@ -60,7 +60,7 @@ def upload():
 @app.route('/addrates', methods = ['POST'])
 def addrates():
 
-    incoming_data = request.json()
+    incoming_data = request.json
     print(incoming_data)
     service_ticket = None
     rate_group = None
@@ -97,6 +97,7 @@ def addrates():
         }
         update_record = requests.put(url=service_ticket_url,headers=auth_upload, json=update_data)
         update_response = json.loads(update_record.text)
+        print(update_response)
         return str(update_response)
 
     else:
