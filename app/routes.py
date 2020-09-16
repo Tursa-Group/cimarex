@@ -68,14 +68,22 @@ def addrates():
 
     if 'id' in incoming_data[0]:
         service_ticket = incoming_data[0]['id']
+        company = incoming_data[0]['company']
         rate_group = incoming_data[0]['field_242_raw'][0]['id']
         labour_rates_url = 'https://api.knack.com/v1/objects/object_15/records?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D'.format(rate_group)
         equipment_rates_url = 'https://api.knack.com/v1/objects/object_33/records?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D'.format(rate_group)
         service_ticket_url = 'https://api.knack.com/v1/objects/object_2/records/{}'.format(service_ticket)
-        auth_upload = {
-        'X-Knack-Application-Id':'5ebb23057aae080017afe379',
-        'X-Knack-REST-API-KEY':'2fd90c50-94b0-11ea-b236-b17621236c3e'
+        auth_array = {
+        competition: {
+            'X-Knack-Application-Id':'5ebb23057aae080017afe379',
+            'X-Knack-REST-API-KEY':'2fd90c50-94b0-11ea-b236-b17621236c3e'
+            },
+        elm: {
+            'X-Knack-Application-Id':'5ed9190db05e020015611d46',
+            'X-Knack-REST-API-KEY':'6d801ed0-a67c-11ea-96bb-196128bd147e'
+            }    
         }
+        auth_upload = auth_array[company]
         r=requests.get(url=labour_rates_url,headers=auth_upload)
         response = json.loads(r.text)
         labour_records = response['records']
