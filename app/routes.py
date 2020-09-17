@@ -74,11 +74,11 @@ def addrates():
         equipment_rates_url = 'https://api.knack.com/v1/objects/object_33/records?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D'.format(rate_group)
         service_ticket_url = 'https://api.knack.com/v1/objects/object_2/records/{}'.format(service_ticket)
         auth_array = {
-        competition: {
+            competition: {
             'X-Knack-Application-Id':'5ebb23057aae080017afe379',
             'X-Knack-REST-API-KEY':'2fd90c50-94b0-11ea-b236-b17621236c3e'
             },
-        elm: {
+            elm: {
             'X-Knack-Application-Id':'5ed9190db05e020015611d46',
             'X-Knack-REST-API-KEY':'6d801ed0-a67c-11ea-96bb-196128bd147e'
             }    
