@@ -133,6 +133,7 @@ def add_elm_rates():
         r = requests.get(url=labour_rates_url, headers=auth_upload)
         response = json.loads(r.text)
         labour_records = response['records']
+        print('labour_records')
         print(labour_records)
 
         for record in labour_records:
