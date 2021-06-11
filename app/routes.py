@@ -124,7 +124,7 @@ def add_elm_rates():
         print('rate_group_id')
         print(rate_group)
         # ?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D%26rows_per_page%3D1000'.format(
-        labour_rates_url = 'https://api.knack.com/v1/objects/object_15/records&rows_per_page=1000'
+        labour_rates_url = 'https://api.knack.com/v1/objects/object_15/records'
         # rate_group)
         equipment_rates_url = 'https://api.knack.com/v1/objects/object_33/records?filters=%5B%7B%22field%22%3A%22field_251%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D%26rows_per_page%3D1000'.format(
             rate_group)
@@ -134,15 +134,14 @@ def add_elm_rates():
             'X-Knack-Application-Id': '5ed9190db05e020015611d46',
             'X-Knack-REST-API-KEY': '6d801ed0-a67c-11ea-96bb-196128bd147e'
         }
-        labour_filters = {
-            'match': 'is',
-            'rules': [
-                {
-                    'field': 'field_225',
-                    'operator': 'is',
-                    'value': rate_group
-                }
-            ]
+        labour_filters =
+        {
+            'rows_per_page': '1000',
+            filters: {
+                'field': 'field_225',
+                'operator': 'is',
+                'value': rate_group
+            }
         }
 
         r = requests.get(url=labour_rates_url,
