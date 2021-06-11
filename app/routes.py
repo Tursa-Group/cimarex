@@ -134,17 +134,8 @@ def add_elm_rates():
             'X-Knack-Application-Id': '5ed9190db05e020015611d46',
             'X-Knack-REST-API-KEY': '6d801ed0-a67c-11ea-96bb-196128bd147e'
         }
-        labour_filters = {
-            'rows_per_page': '1000',
-            'filters': {
-                'field': 'field_225',
-                'operator': 'is',
-                'value': rate_group
-            }
-        }
 
-        r = requests.get(url=labour_rates_url,
-                         headers=auth_upload, params=labour_filters)
+        r = requests.get(url=labour_rates_url, headers=auth_upload)
         response = json.loads(r.text)
         labour_records = response['records']
         print('labour_records')
