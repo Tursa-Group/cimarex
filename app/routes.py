@@ -136,7 +136,7 @@ def add_elm_rates():
         }
         labour_filters = {
             'rows_per_page': '1000',
-            filters: {
+            'filters': {
                 'field': 'field_225',
                 'operator': 'is',
                 'value': rate_group
