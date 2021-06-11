@@ -123,8 +123,9 @@ def add_elm_rates():
         rate_group = incoming_data[0]['field_242_raw'][0]['id']
         print('rate_group_id')
         print(rate_group)
-        labour_rates_url = 'https://api.knack.com/v1/objects/object_15/records?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D%26rows_per_page%3D1000'.format(
-            rate_group)
+        # ?filters=%5B%7B%22field%22%3A%22field_225%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D%26rows_per_page%3D1000'.format(
+        labour_rates_url = 'https://api.knack.com/v1/objects/object_15/records&rows_per_page=1000'
+        # rate_group)
         equipment_rates_url = 'https://api.knack.com/v1/objects/object_33/records?filters=%5B%7B%22field%22%3A%22field_251%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%22{}%22%7D%5D%26rows_per_page%3D1000'.format(
             rate_group)
         service_ticket_url = 'https://api.knack.com/v1/objects/object_2/records/{}'.format(
@@ -133,7 +134,19 @@ def add_elm_rates():
             'X-Knack-Application-Id': '5ed9190db05e020015611d46',
             'X-Knack-REST-API-KEY': '6d801ed0-a67c-11ea-96bb-196128bd147e'
         }
-        r = requests.get(url=labour_rates_url, headers=auth_upload)
+        labour_filters = {
+            'match': 'is',
+            'rules': [
+                {
+                    'field': 'field_225',
+                    'operator': 'is',
+                    'value': rate_group
+                }
+            ]
+        }
+
+        r = requests.get(url=labour_rates_url,
+                         headers=auth_upload, params=labour_filters)
         response = json.loads(r.text)
         labour_records = response['records']
         print('labour_records')
