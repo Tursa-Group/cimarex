@@ -210,7 +210,7 @@ def add_project_types():
         print(project_ids)
 
         update_data = {
-            'field_337_raw': project_ids,
+            'field_337': project_ids,
         }
         update_record = requests.put(
             url=afepo_url, headers=auth_upload, json=update_data)
