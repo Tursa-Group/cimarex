@@ -182,3 +182,42 @@ def get_file():
     get_file_data.raise_for_status()
     response = get_file_data.content
     return response
+
+
+@app.route('/add_project_types', methods=['PUT'])
+def add_project_types():
+
+    incoming_data = request.json
+    print(incoming_data)
+
+    project_ids = []
+
+    if 'afepo_id' in incoming_data:
+        projects_array = incoming_data['projects_array']
+        afepo_id = incoming_data['afepo_id']
+
+        afepo_url = 'https://api.knack.com/v1/objects/object_38/records/{}'.format(
+            afepo_id)
+        auth_upload = {
+            'X-Knack-Application-Id': '5ed9190db05e020015611d46',
+            'X-Knack-REST-API-KEY': '6d801ed0-a67c-11ea-96bb-196128bd147e'
+        }
+
+        for record in projects_array:
+            project_ids.append(record['id'])
+
+        print('projects')
+        print(project_ids)
+
+        update_data = {
+            'field_337_raw': project_ids,
+        }
+        update_record = requests.put(
+            url=afepo_url, headers=auth_upload, json=update_data)
+        update_response = json.loads(update_record.text)
+        print(update_response)
+        return str(update_response)
+
+    else:
+        print('data not reaching processing')
+        return 'please include the records data'
