@@ -193,7 +193,7 @@ def add_project_types():
     project_ids = []
 
     if 'afepo_id' in incoming_data:
-        projects_array = incoming_data['projects_array']
+        projects_array = incoming_data['projects_array']['value']
         afepo_id = incoming_data['afepo_id']
 
         afepo_url = 'https://api.knack.com/v1/objects/object_38/records/{}'.format(
